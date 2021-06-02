@@ -6,7 +6,7 @@ function updateValue(e) {
   searchedCity = e.target.value;
 }
 let currentDay = $("#currentDay");
-let futureDays = $("futureDays");
+let title = $("#title");
 let prevCities = $("#searchedCities");
 let apiKey = "6c8630dd1cedef282abf5478eb1393ca";
 let inputForm = $("searchedCity");
@@ -6813,6 +6813,9 @@ function getAPI() {
 }
 
 function searchedResponse(data) {
+  $("#currentDay").addClass("border border-dark");
+  let futureHeader = $("<h3>").addClass("mt-2").text("5-Day Forecast:");
+  title.append(futureHeader);
   let weatherIcon = data.weather[0].icon;
   let weatherIconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`;
   let iconDisplay = $("<img>").attr({
@@ -6852,6 +6855,7 @@ function searchedResponse(data) {
         .addClass("p-2")
         .text("UV Index: " + dataFuture.current.uvi);
       currentDay.append(uv);
+
       for (let i = 0; i < 6; i++) {
         let unix = moment.unix(dataFuture.daily[i].dt);
         let futureDayText = $("<p>").text(unix.format("MM/DD/YYYY"));
@@ -6875,6 +6879,7 @@ function searchedResponse(data) {
           .addClass()
           .text("Humidity: " + parseInt(dataFuture.daily[i].humidity) + "%");
         $(futureHumid).appendTo(`#day${[i]}`);
+        $(`#day${[i]}`).addClass("border border-dark");
       }
     });
 }
