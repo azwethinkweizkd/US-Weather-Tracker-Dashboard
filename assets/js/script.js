@@ -6,13 +6,10 @@ function updateValue(e) {
   searchedCity = e.target.value;
 }
 let currentDay = $("#currentDay");
-let day1 = $("#day1");
-let day2 = $("#day2");
-let day3 = $("#day3");
-let day4 = $("#day4");
-let day5 = $("#day5");
+let futureDays = $("futureDays");
 let prevCities = $("#searchedCities");
 let apiKey = "6c8630dd1cedef282abf5478eb1393ca";
+let inputForm = $("searchedCity");
 let prevSearch = [];
 
 $(function () {
@@ -6768,11 +6765,38 @@ $(function () {
 //I need a function that will call the Open Weather API
 
 //In this function I will need to call for the correct city from the what the user input
+
+//prevSearch = JSON.parse(localStorage.getItem("prev-search", prevSearch));
+
+function initiate() {
+  if (localStorage.getItem("prev-search")) {
+    prevSearch = JSON.parse(localStorage.getItem("prev-search"));
+  }
+  getFromLocalStorage();
+}
+
 function prevSearchCities() {
-  let prevCityBtn = $("<button>")
-    .addClass("p-2 btn searchBtn btn-dark my-2 btn-block")
-    .text(searchedCity);
-  prevCities.append(prevCityBtn);
+  addtoLocalStorage(document.getElementById("inputForm").value);
+}
+
+function addtoLocalStorage(previousCities) {
+  prevCities.innerHTML = "";
+  if (prevSearch.indexOf(previousCities) !== -1) {
+    return;
+  }
+  prevSearch.push(previousCities);
+  localStorage.setItem("prev-search", JSON.stringify(prevSearch));
+  getFromLocalStorage();
+}
+
+function getFromLocalStorage() {
+  prevCities.innerHTML = "";
+  for (let i = 0; i < prevSearch.length; i++) {
+    let prevCityBtn = $("<button>")
+      .addClass("p-2 btn searchBtn btn-dark my-2 btn-block")
+      .text(prevSearch[i]);
+    prevCities.append(prevCityBtn);
+  }
 }
 
 function getAPI() {
@@ -6828,6 +6852,30 @@ function searchedResponse(data) {
         .addClass("p-2")
         .text("UV Index: " + dataFuture.current.uvi);
       currentDay.append(uv);
+      for (let i = 0; i < 6; i++) {
+        let unix = moment.unix(dataFuture.daily[i].dt);
+        let futureDayText = $("<p>").text(unix.format("MM/DD/YYYY"));
+        $(futureDayText).appendTo(`#day${[i]}`);
+        let weatherIconDaily = dataFuture.daily[i].weather[0].icon;
+        let weatherIconDailyURL = `http://openweathermap.org/img/w/${weatherIconDaily}.png`;
+        let iconDailyDisplay = $("<img>").attr({
+          src: weatherIconDailyURL,
+          alt: "Current Weather Icon",
+        });
+        $(iconDailyDisplay).appendTo(`#day${[i]}`);
+        let futureTemp = $("<p>")
+          .addClass()
+          .text("Temp: " + parseInt(dataFuture.daily[i].temp.max) + " °F");
+        $(futureTemp).appendTo(`#day${[i]}`);
+        let futureWind = $("<p>")
+          .addClass()
+          .text("Wind: " + parseInt(dataFuture.daily[i].wind_speed) + " mph");
+        $(futureWind).appendTo(`#day${[i]}`);
+        let futureHumid = $("<p>")
+          .addClass()
+          .text("Humidity: " + parseInt(dataFuture.daily[i].humidity) + "%");
+        $(futureHumid).appendTo(`#day${[i]}`);
+      }
     });
 }
 
@@ -6845,4 +6893,5 @@ $(".searchBtn").on("click", function (event) {
   $(input).val("");
 });
 
+initiate();
 console.log(searchedCity);
