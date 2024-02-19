@@ -6839,6 +6839,7 @@ function searchedResponse(data) {
 		alt: "Current Weather Icon",
 	});
 	var today = moment().format("MMM DD, YYYY");
+	$("#title").addClass("border border-dark rounded add-title-bg");
 	let cityName = $("<h4>")
 		.addClass("p-2")
 		.text(data.name + " " + today);

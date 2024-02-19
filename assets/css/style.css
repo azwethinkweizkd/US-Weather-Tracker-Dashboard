@@ -25,10 +25,13 @@ header {
 }
 
 #title {
-	background-color: seashell;
 	width: fit-content;
 	padding: 4px;
 	margin-left: 1px;
+}
+
+.add-title-bg {
+	background-color: azure;
 }
 
 #searchedCities {
