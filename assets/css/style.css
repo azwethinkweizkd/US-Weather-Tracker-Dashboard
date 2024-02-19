@@ -1,6 +1,10 @@
 .currentDay {
-  border: 2px solid black;
+	border: 2px solid black;
 }
 header {
-  width: 100%;
+	width: 100%;
+}
+
+.searchedCities {
+	height: fit-content;
 }
