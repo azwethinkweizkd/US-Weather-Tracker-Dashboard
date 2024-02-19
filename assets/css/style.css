@@ -1,10 +1,43 @@
+body {
+	height: 100vh;
+	background: linear-gradient(to top right, #007bff, transparent),
+		linear-gradient(to bottom left, #ff8c00, transparent),
+		linear-gradient(to top right, #ffff00, transparent);
+	overflow-x: hidden;
+	background-attachment: fixed;
+}
+
+.container {
+	z-index: 99;
+}
 .currentDay {
 	border: 2px solid black;
 }
+
 header {
 	width: 100%;
 }
 
-.searchedCities {
+#sideForm {
+	background-color: azure;
+	padding: 8px;
 	height: fit-content;
+}
+
+#title {
+	background-color: seashell;
+	width: fit-content;
+	padding: 4px;
+	margin-left: 1px;
+}
+
+#searchedCities {
+	height: fit-content;
+}
+
+#currentDay {
+	background-color: azure;
+}
+.col-2 {
+	background-color: azure;
 }
